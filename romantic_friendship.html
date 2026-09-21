@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ek Chhota Sa Message 😊</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;font-family:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:radial-gradient(circle at 15% 20%,rgba(255,255,255,.35),transparent 28%),radial-gradient(circle at 85% 80%,rgba(255,255,255,.25),transparent 30%),linear-gradient(135deg,#5b86e5,#36d1dc)}
+.card{width:min(92%,460px);padding:38px 28px;text-align:center;color:#17324d;background:rgba(255,255,255,.94);border:1px solid rgba(255,255,255,.7);border-radius:30px;box-shadow:0 25px 70px rgba(14,47,85,.25);z-index:2}
+.badge{display:inline-block;padding:7px 13px;margin-bottom:12px;border-radius:999px;background:#edf5ff;color:#3971c9;font-size:13px;font-weight:700}
+.heart{font-size:64px;animation:pulse 1.5s infinite}
+h1{font-size:30px;line-height:1.2;margin:12px 0 10px;color:#17324d}
+p{font-size:16px;line-height:1.6;color:#557086;margin:0 0 22px}
+button{border:0;border-radius:14px;padding:14px 24px;margin:6px;font-size:16px;font-weight:700;cursor:pointer;transition:.25s}
+#click,#yes{background:linear-gradient(135deg,#4d8cff,#386fe8);color:white;box-shadow:0 8px 20px rgba(56,111,232,.25)}
+#no{background:#eef3f8;color:#496175}
+button:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(0,0,0,.12)}
+#answer{display:none;margin-top:20px;padding:18px;border-radius:18px;background:#f4f9ff;color:#2c577d;font-size:20px;font-weight:700}
+.small-note{font-size:13px;color:#7890a3;font-weight:500}
+.float{position:absolute;bottom:-40px;font-size:24px;animation:up 6s linear infinite;opacity:.6;z-index:1}
+@keyframes pulse{50%{transform:scale(1.08)}}
+@keyframes up{to{transform:translateY(-110vh) rotate(360deg);opacity:0}}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+<div class="card">
+  <div class="badge">A small message for you ✨</div>
+  <div class="heart">😊</div>
+  <h1>Ek chhota sa sawaal...</h1>
+  <p id="intro">Sorry sorry... aapse na mil paane ke liye. 😅<br>
+  Isliye socha, ek chhoti si baat yahin pooch loon.</p>
+  <button id="click" onclick="showQuestion()">Message dekho 💬</button>
+
+  <div id="question" style="display:none">
+    <h1>Kya tum mera dost banoge? 😊</h1>
+    <p>Bas ek simple sa sawaal hai... honestly batana. 🙂</p>
+    <button id="yes" onclick="yesAnswer()">Haan 😊</button>
+    <button id="no" onclick="noAnswer()">Sochta hoon 😄</button>
+  </div>
+
+  <div id="answer"></div>
+  <p class="small-note" style="margin-top:18px;margin-bottom:0">No pressure — bas ek cute sa sawaal. ✨</p>
+</div>
+
+<script>
+function showQuestion(){
+  document.getElementById("intro").style.display="none";
+  document.getElementById("click").style.display="none";
+  document.getElementById("question").style.display="block";
+}
+emailjs.init({
+  publicKey: "XXcA-oT74zWb2jvfa"
+});
+
+async function yesAnswer(){
+  document.getElementById("question").style.display="none";
+  document.getElementById("answer").style.display="block";
+  document.getElementById("answer").innerHTML="Yayyy! 😄🎉<br>Ab hum officially dost hain! 😊<br><small>Response send ho raha hai...</small>";
+
+  try {
+    await emailjs.send("service_moub8y8", "template_4q5rdfq", {});
+    document.getElementById("answer").innerHTML="Yayyy! 😄🎉<br>Ab hum officially dost hain! 😊<br><small>Response successfully send ho gaya 📩</small>";
+  } catch (error) {
+    console.error("EmailJS error:", error);
+    document.getElementById("answer").innerHTML="Yayyy! 😄🎉<br>Response mil gaya 😊<br><small>Email send nahi ho paya. Please try again.</small>";
+  }
+
+  for(let i=0;i<25;i++) createHeart();
+}
+function noAnswer(){
+  const b=document.getElementById("no");
+  b.innerText="Pakka soch lo 😏";
+  b.style.position="relative";
+  b.style.left=(Math.random()*100-50)+"px";
+}
+function createHeart(){
+  const h=document.createElement("div");
+  h.className="float"; h.innerText=["😊","✨","🎉","⭐","💙"][Math.floor(Math.random()*5)];
+  h.style.left=Math.random()*100+"vw";
+  h.style.animationDuration=(3+Math.random()*4)+"s";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),7000);
+}
+setInterval(createHeart,700);
+</script>
+</body>
+</html>
